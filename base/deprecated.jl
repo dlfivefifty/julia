@@ -1545,8 +1545,17 @@ export hex2num
 @deprecate ctranspose adjoint
 @deprecate ctranspose! adjoint!
 
-@deprecate convert(::Type{Vector{UInt8}}, s::AbstractString)  Vector{UInt8}(s)
-@deprecate convert(::Type{Array{UInt8}}, s::AbstractString)   Vector{UInt8}(s)
+@deprecate convert(::Type{Vector{UInt8}}, s::AbstractString)  copy(Base.StringBytes(s))
+@deprecate convert(::Type{Array{UInt8}}, s::AbstractString)   copy(Base.StringBytes(s))
+function (::Type{Vector{UInt8}})(s::String)
+    depwarn("Vector{UInt8}(s::String) will copy data in the future. To avoid copying, use StringBytes(s) instead.", :Type)
+    Base.StringBytes(s)
+end
+function (::Type{Array{UInt8}})(s::String)
+    depwarn("Array{UInt8}(s::String) will copy data in the future. To avoid copying, use StringBytes(s) instead.", :Type)
+    Base.StringBytes(s)
+end
+
 @deprecate convert(::Type{Vector{Char}}, s::AbstractString)   Vector{Char}(s)
 @deprecate convert(::Type{Symbol}, s::AbstractString)         Symbol(s)
 @deprecate convert(::Type{String}, s::Symbol)                 String(s)

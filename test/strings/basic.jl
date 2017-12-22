@@ -206,7 +206,7 @@ struct tstStringType <: AbstractString
     data::Array{UInt8,1}
 end
 @testset "AbstractString functions" begin
-    tstr = tstStringType(Vector{UInt8}("12"))
+    tstr = tstStringType(unsafe_wrap(Vector{UInt8},"12"))
     @test_throws MethodError ncodeunits(tstr)
     @test_throws MethodError codeunit(tstr)
     @test_throws MethodError codeunit(tstr, 1)
@@ -697,7 +697,7 @@ end
     end
 end
 
-@test Vector{UInt8}("\xcc\xdd\xee\xff\x80") == [0xcc,0xdd,0xee,0xff,0x80]
+@test unsafe_wrap(Vector{UInt8},"\xcc\xdd\xee\xff\x80") == [0xcc,0xdd,0xee,0xff,0x80]
 
 @test next("a", 1)[2] == 2
 @test nextind("a", 1) == 2

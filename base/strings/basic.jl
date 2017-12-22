@@ -185,8 +185,8 @@ checkbounds(s::AbstractString, I::Union{Integer,AbstractArray}) =
 string() = ""
 string(s::AbstractString) = s
 
-(::Type{Vector{UInt8}})(s::AbstractString) = Vector{UInt8}(String(s))
-(::Type{Array{UInt8}})(s::AbstractString) = Vector{UInt8}(s)
+(::Type{Vector{UInt8}})(s::AbstractString) = unsafe_wrap(Vector{UInt8}, String(s))
+(::Type{Array{UInt8}})(s::AbstractString) = unsafe_wrap(Vector{UInt8}, String(s))
 (::Type{Vector{Char}})(s::AbstractString) = collect(s)
 
 Symbol(s::AbstractString) = Symbol(String(s))

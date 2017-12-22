@@ -533,7 +533,7 @@ end
 
 let s = "abcα🐨\0x\0"
     for T in (UInt8, UInt16, UInt32, Int32)
-        @test transcode(T, s) == transcode(T, Vector{UInt8}(s))
+        @test transcode(T, s) == transcode(T, Base.StringBytes(s))
         @test transcode(String, transcode(T, s)) == s
     end
 end

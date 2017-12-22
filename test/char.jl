@@ -199,7 +199,7 @@ end
 @testset "read incomplete character at end of stream or file" begin
     local file = tempname()
     local iob = IOBuffer([0xf0])
-    local bytes(c::Char) = Vector{UInt8}(string(c))
+    local bytes(c::Char) = Base.StringBytes(string(c))
     @test bytes(read(iob, Char)) == [0xf0]
     @test eof(iob)
     try
