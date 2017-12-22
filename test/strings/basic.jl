@@ -794,3 +794,11 @@ end
 @test nextind("\xf8\x9f\x98\x84", 1) == 2
 @test next("\xf8\x9f\x98\x84z", 1)[2] == 2
 @test nextind("\xf8\x9f\x98\x84z", 1) == 2
+
+# issue #24388
+let v = unsafe_wrap(Vector{UInt8}, "abc")
+    s = String(v)
+    @test_throws BoundsError v[1]
+    push!(v, UInt8('x'))
+    @test s == "abc"
+end
